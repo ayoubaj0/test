@@ -5,11 +5,11 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f1f1f1;
+      background-color: black;
     }
 
     .container {
-      max-width: 400px;
+      max-width: 300px;
       margin: 0 auto;
       padding: 20px;
       background-color: #F9D700;
@@ -23,7 +23,7 @@
     }
 
     input[type="text"],
-    input[type="password"] {
+    input[type="password"] ,select{
       width: 100%;
       padding: 12px 20px;
       margin: 8px 0;
@@ -40,6 +40,7 @@
       border: none;
       cursor: pointer;
       width: 100%;
+      font-size: medium;
     }
 
     button:hover {
@@ -56,14 +57,20 @@
 
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" placeholder="Enter your password">
+      <label for="user_type">User Type:</label>
+      <select id="user_type" name="user_type">
+        <option value="driver">Driver</option>
+        <option value="client">Client</option>
+      </select>
 
       <button type="submit">Login</button>
     </form>
   </div>
   <script>
     function login() {
-        var email = document.getElementById('email').value;
-        var password = document.getElementById('password').value;
+        let email = document.getElementById('email').value;
+        let password = document.getElementById('password').value;
+        let user_type = document.getElementById('user_type').value;
         
         
         if (email === '' || password === '') {
@@ -71,7 +78,7 @@
           return;
         }
         const db = new sqlite3.Database(':memory:');
-        db.get('SELECT * FROM client WHERE email = ? AND password = ?', [email, password], (err, row) => {
+        db.get('SELECT * FROM client WHERE email = ? AND password = ? AND user_type = ?', [email, password,user_type], (err, row) => {
             if (err) {
               console.error(err);
               res.status(500).json({ success: false, error: 'An error occurred while processing the request.' });
@@ -85,3 +92,4 @@
   </script>
 </body>
 </html>
+
